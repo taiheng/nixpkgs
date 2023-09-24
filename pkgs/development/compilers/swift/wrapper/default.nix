@@ -20,13 +20,9 @@ stdenv.mkDerivation (
     # Wrapper and setup hook variables.
     inherit swift;
     inherit (swift)
-      swiftOs
-      swiftArch
-      swiftModuleSubdir
-      swiftLibSubdir
-      swiftStaticModuleSubdir
-      swiftStaticLibSubdir
-      ;
+      swiftOs swiftArch
+      swiftModuleSubdir swiftLibSubdir
+      swiftStaticModuleSubdir swiftStaticLibSubdir;
     swiftDriver = lib.optionalString useSwiftDriver "${swift-driver}/bin/swift-driver";
 
     env.darwinMinVersion = lib.optionalString stdenv.targetPlatform.isDarwin (
@@ -43,11 +39,12 @@ stdenv.mkDerivation (
       ln -s -t $out/bin/ $swift/bin/swift*
 
       # Replace specific binaries with wrappers.
-      for executable in swift swiftc swift-frontend; do
-        export prog=$swift/bin/$executable
-        rm $out/bin/$executable
-        substituteAll '${./wrapper.sh}' $out/bin/$executable
-        chmod a+x $out/bin/$executable
+      for progName in swift swiftc swift-frontend; do
+        prog=$swift/bin/$progName
+        export prog progName
+        rm $out/bin/$progName
+        substituteAll '${./wrapper.sh}' $out/bin/$progName
+        chmod a+x $out/bin/$progName
       done
 
       ${lib.optionalString useSwiftDriver ''
