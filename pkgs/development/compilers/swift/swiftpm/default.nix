@@ -384,7 +384,9 @@ let
       buildInputs = [
         llbuild
         sqlite
+        swift-asn1
         swift-argument-parser
+        swift-certificates
         swift-collections
         swift-crypto
         swift-driver
