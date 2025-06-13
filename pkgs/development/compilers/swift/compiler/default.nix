@@ -552,6 +552,10 @@ stdenv.mkDerivation {
     mv llvm/bin/clang-16{-unwrapped,}
     mv swift/bin/swift-frontend{-unwrapped,}
 
+    substituteInPlace \
+      swift/stdlib/public/libexec/swift-backtrace/cmake_install.cmake \
+      --replace "./libexec/swift/macosx/swift-backtrace" "stdlib/public/libexec/swift-backtrace/OSX/${swiftArch}"
+
     mkdir $out $lib
 
     # Install clang binaries only. We hide these with the wrapper, so they are
