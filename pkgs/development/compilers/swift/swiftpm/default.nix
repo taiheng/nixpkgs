@@ -425,7 +425,6 @@ stdenv.mkDerivation (
       swift-argument-parser
       swift-certificates
       swift-collections
-      swift-crypto
       swift-driver
       swift-system
       swift-tools-support-core
